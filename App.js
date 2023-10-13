@@ -3,7 +3,8 @@ import { View, Text, Button, Image } from "react-native";
 
 import { Audio } from "expo-av";
 import { styles } from "./AppStyles";
-// import Sound from "react-native-sound";
+
+import { activateKeepAwake, deactivateKeepAwake } from "expo-keep-awake";
 
 const App = () => {
   const [matTime, setMatTime] = useState(5);
@@ -57,6 +58,14 @@ const App = () => {
     }
     return () => clearInterval(interval);
   }, [timerOn, remainingTime, onBreak]);
+
+  useEffect(() => {
+    if (timerOn) {
+      activateKeepAwake();
+    } else {
+      deactivateKeepAwake();
+    }
+  }, [timerOn]);
 
   useEffect(() => {
     return sound
